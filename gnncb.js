@@ -7548,7 +7548,7 @@ const LEAD_AUTHOR = { name: "Islem Rekik", url: "https://basira-lab.com/", image
   email: "islem.rekik@gmail.com", affiliation: "Imperial College London", country: "UK" };
 
 const AUTHORS = [
-  { name: "Murad Hossen",                 url: "https://openreview.net/profile?id=~Murad_Hossen1",                 image: "fig/authors/avatar.jpg",
+  { name: "Murad Hossen",                 url: "https://openreview.net/profile?id=~Murad_Hossen1",                 image: "fig/authors/murad.png",
     email: "murad09buet@gmail.com", affiliation: "University of Houston, Houston, Texas, USA", country: "USA" },
   { name: "Tasneem Selim",                url: "https://openreview.net/profile?id=~Tasneem_Selim1",                image: "fig/authors/tasneem.jpg",
     email: "tasneem.mselim@gmail.com", affiliation: "Faculty of Science, Alexandria University, Alexandria, Egypt", country: "Egypt" },
