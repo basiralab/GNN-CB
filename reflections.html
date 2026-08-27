@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>GNN-CB: Reflections</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&family=DM+Mono:wght@400;500&family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,600;0,9..144,700;1,9..144,300;1,9..144,400&display=swap" rel="stylesheet" />
+  <script>
+    (function () {
+      var t = localStorage.getItem('gnncb-theme');
+      if (t === 'light' || t === 'dark') document.documentElement.setAttribute('data-theme', t);
+    })();
+  </script>
+  <link rel="stylesheet" href="gnncb.css" />
+  <script>
+    if ('scrollRestoration' in history) { history.scrollRestoration = 'manual'; }
+    window.addEventListener('load', () => { window.scrollTo(0, 0); });
+  </script>
+</head>
+<body>
+
+<img src="fig/logo/BASIRA-DARK.png"
+     data-src-dark="fig/logo/BASIRA-DARK.png"
+     data-src-bright="fig/logo/BASIRA-LIGHT.png"
+     alt="BASIRA Lab" class="corner-logo theme-img"
+     style="position:fixed; top:10px; left:16px; height:34px; width:auto; object-fit:contain; z-index:250;" />
+
+<nav>
+  <div class="nav-brand">
+      <svg width="22" height="22" viewBox="0 0 22 22" fill="none">
+      <circle cx="11" cy="11" r="10" stroke="#2ea043" stroke-width="1.5"/>
+      <circle cx="11" cy="5"  r="2.5" fill="#2ea043"/>
+      <circle cx="5"  cy="17" r="2.5" fill="#2ea043"/>
+      <circle cx="17" cy="17" r="2.5" fill="#2ea043"/>
+      <line x1="11" y1="7.5" x2="5"  y2="14.5" stroke="#2ea043" stroke-width="1.2"/>
+      <line x1="11" y1="7.5" x2="17" y2="14.5" stroke="#2ea043" stroke-width="1.2"/>
+      <line x1="5"  y1="17" x2="17" y2="17"    stroke="#2ea043" stroke-width="1.2"/>
+    </svg>
+    GNN<span class="dot">-CB</span>
+  </div>
+  <div class="nav-links">
+    <a href="index.html#introduction">Introduction</a>
+    <a href="index.html#benchmark">Benchmark</a>
+    <a href="index.html#competitions">Competitions</a>
+    <a href="index.html#results">Results</a>
+    <a href="index.html#leaderboard" class="nav-pill">🏆 Leaderboard</a>
+    <a href="reflections.html">🌟 Reflections</a>
+    <button type="button" id="theme-toggle" class="theme-toggle" aria-pressed="true" title="Switch to bright mode">
+      <span class="label-light">☀ Bright</span>
+      <span class="label-dark">🌙 Dark</span>
+    </button>
+  </div>
+</nav>
+
+
+<header class="hero" style="padding-bottom: 2rem;">
+  <p class="rise-tagline">We <span style="color:red">never</span> rise alone<br>we always rise <span class="dynamic-word">TOGETHER</span></p>
+  <p class="hero-subtitle">
+    Here is our success story of <a href="https://www.linkedin.com/feed/update/urn:li:activity:7368982974270242816/" target="_blank" rel="noopener noreferrer">
+    GNNs for Rising Stars</a> (G4RS) Program, led by Dr Islem Rekik. <br>
+
+    It began as an idea to spread knowledge, create opportunities,
+    and empower students from low- and middle-income countries became a journey that led to an
+    A* publication at EMNLP 2026 Main Conference.
+  </p>
+</header>
+
+<section class="section" id="journey-gallery">
+  <h1></h1>
+  <p class="journey-caption">Glimpses of the Journey ✨</p>
+  <div class="journey-carousel">
+    <div class="journey-track">
+      <img src="fig/Journey/1.png" alt="Journey 1" />
+      <img src="fig/Journey/2.PNG" alt="Journey 2" />
+      <img src="fig/Journey/3.PNG" alt="Journey 3" />
+      <img src="fig/Journey/4.PNG" alt="Journey 4" />
+      <img src="fig/Journey/1.png" alt="Journey 1" />
+      <img src="fig/Journey/2.PNG" alt="Journey 2" />
+      <img src="fig/Journey/3.PNG" alt="Journey 3" />
+      <img src="fig/Journey/4.PNG" alt="Journey 4" />
+    </div>
+  </div>
+</section>
+
+
+<hr class="section-divider" />
+<p class="journey-caption">It wasn't easy <br> But it was worth it. ✨</p>
+
+<section class="section" id="reflections">
+  <div class="reflections-grid" id="reflections-grid"></div>
+</section>
+
+<section class="section" id="reflections">
+  <div class="reflections-grid" id="reflections-grid"></div>
+</section>
+
+<hr class="section-divider" />
+
+<section class="section" id="through-their-eyes">
+  <p class="journey-caption">The Journey, Through Their Eyes</p>
+  <div class="eyes-carousel">
+    <button class="eyes-nav eyes-nav-prev" aria-label="Scroll left" onclick="document.getElementById('eyes-track').scrollBy({left:-320,behavior:'smooth'})">&#10094;</button>
+    <div class="eyes-track" id="eyes-track"></div>
+    <button class="eyes-nav eyes-nav-next" aria-label="Scroll right" onclick="document.getElementById('eyes-track').scrollBy({left:320,behavior:'smooth'})">&#10095;</button>
+  </div>
+</section>
+
+<div class="eyes-lightbox" id="eyes-lightbox">
+  <button class="eyes-lightbox-close" id="eyes-lightbox-close" aria-label="Close">&times;</button>
+  <button class="eyes-lightbox-arrow eyes-lightbox-prev" id="eyes-lightbox-prev" aria-label="Previous">&#10094;</button>
+  <img class="eyes-lightbox-img" id="eyes-lightbox-img" src="" alt="" />
+  <button class="eyes-lightbox-arrow eyes-lightbox-next" id="eyes-lightbox-next" aria-label="Next">&#10095;</button>
+</div>
+
+
+  
+
+<footer>
+  <img src="fig/logo/BASIRA-DARK.png"
+     data-src-dark="fig/logo/BASIRA-DARK.png"
+     data-src-bright="fig/logo/BASIRA-LIGHT.png"
+     alt="BASIRA Lab" class="footer-logo theme-img" /> 
+  <p>
+    <strong>GNN-CB</strong> · EMNLP 2026 · MIT License
+  </p>
+  <p style="margin-top:4px; font-size:0.8rem; color:var(--ink-3);">Research &amp; educational use only.</p>
+</footer>
+
+<script src="gnncb.js"></script>
+<script>
+    <script src="gnncb.js"></script>
+<script>
+  function applyThemeImgs() {
+    var dark = document.documentElement.getAttribute('data-theme') === 'dark';
+    document.querySelectorAll('img.theme-img').forEach(function(img) {
+      img.src = dark ? img.dataset.srcDark : img.dataset.srcBright;
+    });
+  }
+  applyThemeImgs();
+  new MutationObserver(function(muts) {
+    muts.forEach(function(m) {
+      if (m.attributeName === 'data-theme') applyThemeImgs();
+    });
+  }).observe(document.documentElement, { attributes: true });
+</script>
+
+<script>
+    (function () {
+    var total = 16;
+    var base = 'fig/testimony/';           // <-- update this path if your 16 images live elsewhere
+
+    // images 15 and 16 use uppercase .PNG, the rest use lowercase .png
+    function extFor(n) {
+      return (n === 15 || n === 16) ? '.PNG' : '.png';
+    }
+
+    var track = document.getElementById('eyes-track');
+    var lightbox = document.getElementById('eyes-lightbox');
+    var lightboxImg = document.getElementById('eyes-lightbox-img');
+    var current = 0;
+    if (!track) return;
+
+    for (var i = 1; i <= total; i++) {
+      (function (n) {
+        var img = document.createElement('img');
+        img.src = base + n + extFor(n);
+        img.alt = 'Journey moment ' + n;
+        img.loading = 'lazy';
+        img.className = 'eyes-thumb';
+        img.addEventListener('click', function () { openLightbox(n - 1); });
+        track.appendChild(img);
+      })(i);
+    }
+
+    function openLightbox(index) {
+      current = index;
+      lightboxImg.src = base + (current + 1) + extFor(current + 1);
+      lightbox.classList.add('is-open');
+      document.body.style.overflow = 'hidden';
+    }
+    function closeLightbox() {
+      lightbox.classList.remove('is-open');
+      document.body.style.overflow = '';
+    }
+    function showRelative(delta) {
+      current = (current + delta + total) % total;
+      lightboxImg.src = base + (current + 1) + extFor(current + 1);
+    }
+      
+    document.getElementById('eyes-lightbox-close').addEventListener('click', closeLightbox);
+    document.getElementById('eyes-lightbox-prev').addEventListener('click', function () { showRelative(-1); });
+    document.getElementById('eyes-lightbox-next').addEventListener('click', function () { showRelative(1); });
+    lightbox.addEventListener('click', function (e) { if (e.target === lightbox) closeLightbox(); });
+    document.addEventListener('keydown', function (e) {
+      if (!lightbox.classList.contains('is-open')) return;
+      if (e.key === 'Escape') closeLightbox();
+      if (e.key === 'ArrowLeft') showRelative(-1);
+      if (e.key === 'ArrowRight') showRelative(1);
+    });
+  })();
+</script>
+</body>
+</html>

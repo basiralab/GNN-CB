@@ -1,0 +1,1069 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>GNN-CB: Graph Neural Network Competition Benchmark</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&family=DM+Mono:wght@400;500&family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,600;0,9..144,700;1,9..144,300;1,9..144,400&display=swap" rel="stylesheet" />
+  <script>
+    (function () {
+      var t = localStorage.getItem('gnncb-theme');
+      if (t === 'light' || t === 'dark') document.documentElement.setAttribute('data-theme', t);
+    })();
+  </script>
+  <link rel="stylesheet" href="gnncb.css" />
+
+  <script>
+    // Prevent automatic scroll restoration
+    if ('scrollRestoration' in history) {
+      history.scrollRestoration = 'manual';
+    }
+  
+    // Force page to start at top on load
+    window.addEventListener('load', () => {
+      window.scrollTo(0, 0);
+    });
+  </script>
+  
+  <style>
+    /* ── Uniform section width — all content aligns identically ── */
+    /* max-width: 900px; */
+    .section {
+      max-width: 75%;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    
+
+    /* Abstract — same width as sections, not its own max-width */
+    .abstract-block {
+      padding: 1.75rem 2rem;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-left: 4px solid var(--accent);
+      border-radius: var(--r-md);
+      font-size: 1rem;
+      line-height: 1.8;
+      color: var(--ink-2);
+    }
+    .abstract-block strong { color: var(--ink); }
+    .abstract-label {
+      font-family: var(--font-serif);
+      font-size: 0.75rem;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 0.6rem;
+      display: block;
+    }
+
+    .controls {
+    display: flex;
+    gap: 0.75rem;
+    align-items: center;
+  }
+
+  /* #global-participation {
+  margin: 3rem 0;
+}
+
+#global-participation p {
+  line-height: 1.7;
+  margin-bottom: 1.5rem;
+} */
+
+.world-map-figure {
+  margin: 2rem auto;
+  text-align: center;
+}
+
+.world-map-img {
+  width: 100%;
+  max-width: 1100px;
+  border-radius: 14px;
+  box-shadow: 0 4px 18px rgba(0, 0, 0, 0.08);
+}
+
+.world-map-figure figcaption {
+  margin-top: 0.8rem;
+  font-size: 0.95rem;
+  color: #666;
+}
+
+#llm-analysis {
+  margin: 5rem 0;
+  padding: 0 1rem;
+}
+
+
+/* ===================== */
+/* HERO FIGURE */
+/* ===================== */
+
+.hero-figure {
+  margin: 3rem auto;
+  text-align: center;
+}
+
+.hero-figure img {
+  width: 100%;
+  max-width: 1400px;
+  border-radius: 18px;
+  box-shadow: 0 6px 24px rgba(0, 0, 0, 0.08);
+  display: block;
+}
+
+.hero-figure figcaption {
+  margin-top: 1rem;
+  font-size: 0.96rem;
+  color: #555;
+  line-height: 1.6;
+}
+
+/* ===================== */
+/* SUBPLOT GRID */
+/* ===================== */
+
+  
+  #comp-search {
+    flex: 2.2;
+    min-width: 320px;
+  }
+  
+  #comp-diff,
+  #comp-cat,
+  #comp-task {
+    flex: 1;
+  }
+
+  #competition-composition {
+  margin: 3rem 0;
+}
+
+#competition-composition p {
+  line-height: 1.7;
+  margin-bottom: 1.5rem;
+}
+
+.composition-figure {
+  margin: 2rem auto;
+  text-align: center;
+}
+
+.composition-img {
+  width: 100%;
+  max-width: 1200px;
+  border-radius: 14px;
+  box-shadow: 0 4px 18px rgba(0, 0, 0, 0.08);
+}
+
+.composition-figure figcaption {
+  margin-top: 0.8rem;
+  font-size: 0.95rem;
+  color: #666;
+}
+
+    /* Paper nav pills */
+    .paper-nav {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.45rem;
+      margin-top: 1.5rem;
+    }
+    .paper-nav a {
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: var(--ink-3);
+      padding: 3px 10px;
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      text-decoration: none;
+      transition: color .15s, border-color .15s;
+    }
+    .paper-nav a:hover { color: var(--accent); border-color: var(--accent); }
+
+    /* Authors block */
+    .authors-block {
+      text-align: center;
+      margin-top: 1.25rem;
+      color: var(--ink-2);
+      line-height: 1.8;
+    }
+    .authors-block .author-list { font-size: 1rem; color: var(--ink); font-weight: 500; }
+    .authors-block .affil { font-size: 0.85rem; color: var(--ink-3); margin-top: 0.2rem; }
+    .authors-block .venue-pill {
+      display: inline-block;
+      margin-top: 0.65rem;
+      background: var(--accent-dim);
+      border: 1px solid var(--accent);
+      color: var(--accent);
+      font-size: 0.8rem;
+      font-weight: 700;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      border-radius: 99px;
+      padding: 2px 14px;
+    }
+
+    /* Section label above title */
+    .section-lede {
+      display: inline-block;
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--ink-3);
+      margin-bottom: 0.3rem;
+    }
+
+    /* Body text — no max-width so it matches section width */
+    .body-text {
+      font-size: 0.94rem;
+      color: var(--ink-2);
+      line-height: 1.72;
+      margin-bottom: 1.1rem;
+    }
+
+    /* Two-column card grid (related work) */
+    .two-col-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+      margin-top: 1.1rem;
+    }
+    @media (max-width: 680px) { .two-col-grid { grid-template-columns: 1fr; } }
+    .card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--r-md);
+      padding: 1.1rem 1.25rem;
+    }
+    .card h4 { font-size: 0.9rem; font-weight: 600; color: var(--ink); margin-bottom: 0.4rem; }
+    .card p  { font-size: 0.86rem; color: var(--ink-2); line-height: 1.6; margin: 0; }
+    .card .tag {
+      display: inline-block;
+      font-size: 0.7rem; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase;
+      color: var(--accent); background: var(--accent-dim);
+      border-radius: 4px; padding: 1px 7px; margin-bottom: 0.4rem;
+    }
+    .card.accent-left { border-left: 4px solid var(--accent); }
+    .card.blue-left   { border-left: 4px solid var(--blue); }
+    .card.span-full   { grid-column: 1 / -1; }
+
+    /* Contribution list */
+    .contrib-list {
+      list-style: none; padding: 0; margin-top: 1rem;
+      display: flex; flex-direction: column; gap: 0.55rem;
+    }
+    .contrib-list li {
+      display: flex; gap: 0.7rem; align-items: flex-start;
+      font-size: 0.9rem; color: var(--ink-2); line-height: 1.58;
+    }
+    .contrib-num {
+      flex-shrink: 0; width: 20px; height: 20px; border-radius: 50%;
+      background: var(--accent-dim); border: 1px solid var(--accent);
+      color: var(--accent); font-size: 0.68rem; font-weight: 700;
+      display: flex; align-items: center; justify-content: center;
+    }
+
+    /* Protocol cards (4-col grid) */
+    .protocol-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 0.9rem; margin-top: 1.1rem;
+    }
+    .protocol-card {
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: var(--r-md); padding: 1rem 1.1rem;
+    }
+    .p-num {
+      display: inline-block; font-size: 0.68rem; font-weight: 700;
+      letter-spacing: 0.05em; text-transform: uppercase;
+      color: var(--accent); background: var(--accent-dim);
+      border-radius: 99px; padding: 1px 9px; margin-bottom: 0.5rem;
+    }
+    .protocol-card h4 { font-size: 0.88rem; font-weight: 600; color: var(--ink); margin-bottom: 0.4rem; }
+    .protocol-card ul { font-size: 0.82rem; color: var(--ink-2); line-height: 1.6; padding-left: 1rem; margin: 0; }
+    .protocol-card li { margin-bottom: 0.15rem; }
+
+    /* Code snippet */
+    .code-snippet {
+      background: var(--surface2); border: 1px solid var(--border);
+      border-radius: var(--r-sm); padding: 0.9rem 1.1rem;
+      font-family: var(--font-mono); font-size: 0.8rem; color: var(--ink-2);
+      overflow-x: auto; margin-top: 0.85rem; white-space: pre;
+    }
+    .code-snippet .kw { color: var(--blue); font-weight: 600; }
+    .code-snippet .cm { color: var(--ink-3); font-style: italic; }
+    .code-snippet .st { color: var(--orange); }
+
+    /* Theme-aware PNG figures */
+    .fig-wrap { margin-top: 1.4rem; }
+    .fig-wrap p.fig-caption {
+      font-size: 0.82rem; color: var(--ink-3); margin-bottom: 0.5rem; line-height: 1.5;
+    }
+    .fig-wrap img.theme-img {
+      width: 100%; border-radius: var(--r-md);
+      border: 1px solid var(--border);
+      display: block;
+    }
+
+    /* Discussion grid */
+    .discussion-grid {
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 1rem; margin-top: 1.1rem;
+    }
+    @media (max-width: 680px) { .discussion-grid { grid-template-columns: 1fr; } }
+
+    /* Setup code blocks */
+    .setup-tabs { display: flex; gap: 0.5rem; margin-top: 1rem; flex-wrap: wrap; }
+    .setup-tab-btn {
+      font-size: 0.8rem; font-weight: 600; padding: 4px 12px;
+      border: 1px solid var(--border); border-radius: 4px;
+      background: var(--surface); color: var(--ink-3); cursor: pointer;
+      transition: color .15s, border-color .15s, background .15s;
+    }
+    .setup-tab-btn.active { color: var(--accent); border-color: var(--accent); background: var(--accent-dim); }
+    .setup-pane {
+      display: none; background: var(--surface2); border: 1px solid var(--border);
+      border-radius: var(--r-md); padding: 1rem 1.25rem; margin-top: 0.5rem;
+    }
+    .setup-pane.active { display: block; }
+    .setup-pane pre {
+      font-family: var(--font-mono); font-size: 0.8rem; color: var(--ink-2);
+      overflow-x: auto; margin: 0; white-space: pre;
+    }
+
+    /* Models table */
+    .models-table { width: 100%; border-collapse: collapse; font-size: 0.87rem; margin-top: 0.9rem; }
+    .models-table th {
+      text-align: left; padding: 0.45rem 0.7rem;
+      background: var(--surface2); color: var(--ink-3);
+      font-size: 0.74rem; font-weight: 600; letter-spacing: 0.05em; text-transform: uppercase;
+      border-bottom: 1px solid var(--border);
+    }
+    .models-table td { padding: 0.45rem 0.7rem; border-bottom: 1px solid var(--border); color: var(--ink-2); }
+    .models-table td:first-child { color: var(--ink); font-weight: 500; }
+    .models-table tr:last-child td { border-bottom: none; }
+    .models-table code {
+      font-family: var(--font-mono); font-size: 0.77rem;
+      background: var(--surface2); border: 1px solid var(--border);
+      border-radius: 3px; padding: 1px 5px;
+    }
+  </style>
+</head>
+<body>
+
+  <img src="fig/logo/BASIRA-DARK.png"
+     data-src-dark="fig/logo/BASIRA-DARK.png"
+     data-src-bright="fig/logo/BASIRA-LIGHT.png"
+     alt="BASIRA Lab" class="corner-logo theme-img"
+     style="position:fixed; top:10px; left:16px; height:34px; width:auto; object-fit:contain; z-index:250;" />
+  
+<!-- ═══════════════════════════ NAV ═══════════════════════════════════ -->
+<nav>
+  <div class="nav-brand">
+    <svg width="22" height="22" viewBox="0 0 22 22" fill="none">
+      <circle cx="11" cy="11" r="10" stroke="#2ea043" stroke-width="1.5"/>
+      <circle cx="11" cy="5"  r="2.5" fill="#2ea043"/>
+      <circle cx="5"  cy="17" r="2.5" fill="#2ea043"/>
+      <circle cx="17" cy="17" r="2.5" fill="#2ea043"/>
+      <line x1="11" y1="7.5" x2="5"  y2="14.5" stroke="#2ea043" stroke-width="1.2"/>
+      <line x1="11" y1="7.5" x2="17" y2="14.5" stroke="#2ea043" stroke-width="1.2"/>
+      <line x1="5"  y1="17" x2="17" y2="17"    stroke="#2ea043" stroke-width="1.2"/>
+    </svg>
+    GNN<span class="dot">-CB</span>
+  </div>
+  <div class="nav-links">
+    <a href="index.html#introduction">Introduction</a>
+    <a href="index.html#benchmark">Benchmark</a>
+    <a href="index.html#competitions">Competitions</a>
+    <a href="index.html#results">Results</a>
+    <a href="index.html#leaderboard" class="nav-pill">🏆 Leaderboard</a>
+    <a href="reflections.html" >🌟 Reflections</a>
+    <button type="button" id="theme-toggle" class="theme-toggle" aria-pressed="true" title="Switch to bright mode">
+      <span class="label-light">☀ Bright</span>
+      <span class="label-dark">🌙 Dark</span>
+    </button>
+  </div>
+</nav>
+
+<!-- ═══════════════════════════ HERO ══════════════════════════════════ -->
+<header class="hero">
+  <h1>GNN-CB: A <em>Graph Neural Network</em><br/>Competition Benchmark</h1>
+  <p class="hero-subtitle">18 competitions · Unified hidden-test evaluation · Human &amp; LLM comparison</p>
+
+  <div class="authors-block">
+    <div id="lead-author" class="lead-author"></div>
+    <div id="authors-grid" class="authors-grid"></div>
+    <span class="venue-pill">EMNLP 2026 · Main Conference</span>
+  </div>
+
+  <div class="hero-stats">
+    <div class="stat-pill"><span class="val">18</span><span class="lbl">Competitions</span></div>
+    <div class="stat-pill"><span class="val">7</span><span class="lbl">Graph Categories</span></div>
+    <div class="stat-pill"><span class="val">9</span><span class="lbl">LLMs Evaluated</span></div>
+    <div class="stat-pill"><span class="val">250+</span><span class="lbl">Human Submissions</span></div>
+    <div class="stat-pill"><span class="val">10+</span><span class="lbl">Domains</span></div>
+  </div>
+
+  <!-- <div class="paper-nav" style="justify-content:center; margin-top:1.75rem;">
+    <a href="#introduction">Introduction</a>
+    <a href="#benchmark">Benchmark</a>
+    <a href="#competitions">Competitions</a>
+    <a href="#results">Results</a>
+    <a href="#leaderboard">Leaderboard</a>
+    <a href="#citation">BibTeX</a>
+  </div> -->
+</header>
+
+<!-- ═══════════════════════════ ABSTRACT ════════════════════════════ -->
+<hr class="section-divider" />
+<section class="section" id="abstract">
+  <div class="abstract-block">
+    <span class="abstract-label">Abstract</span>
+    Large language models (LLMs) have demonstrated strong performance on coding and reasoning benchmarks; however, their ability to solve graph-structured machine learning problems remains largely unexplored. In particular, no benchmark currently evaluates whether LLMs can autonomously solve end-to-end Graph Neural Network (GNN) coding tasks under realistic competition settings. To address this gap, this paper introduces <strong>GNN-CB</strong>, the first competition-based benchmark for evaluating both humans and LLMs on executable GNN coding tasks. GNN-CB consists of <strong>18 curated competitions</strong> spanning node-, edge-, and graph-level prediction across diverse graph categories, domains, and difficulty tiers. All submissions are evaluated through a unified automated pipeline with hidden test sets and standardized scoring. Human participants solve tasks under controlled competition constraints, while LLMs are evaluated using a frozen zero-shot prompting protocol based on a <strong>plan-then-code paradigm</strong> with bounded execute-and-repair loops. The benchmark additionally supports both non-agent and autonomous agent-based evaluation under identical conditions. The experimental results show that LLMs rarely match Human Top performance and exhibits larger and less stable performance across competitions. No single model dominates: a few competitions are won by LLMs, yet humans still hold the top score on most tasks. We release GNN-CB as a <strong>living benchmark</strong> with automated evaluation infrastructure, dynamic leaderboards, and reproducible execution pipelines. Beyond benchmarking, GNN-CB also serves as an educational corpus for progressive learning of GNNs.
+  </div>
+</section>
+
+<!-- ═══════════════════════════ INTRODUCTION ════════════════════════ -->
+<hr class="section-divider" />
+<section class="section" id="introduction">
+  <span class="section-lede"></span>
+  <h2 class="section-title" style="margin-top:0.15rem;"><span class="section-icon"></span>Introduction</h2>
+
+ 
+  <!-- Figure 1 -->
+  <!-- <div style="margin-top:1.5rem; margin-bottom:0.5rem;">
+    <p class="fig-desc" style="margin-bottom:0.5rem; font-size:0.83rem; color:var(--ink-3);">Figure 1 — Benchmark overview: competition taxonomy, evaluation protocols, and unified hidden-test pipeline.</p>
+    <div class="figure-viewport" data-width="1400" data-height="1300" data-fit="width" data-no-cap="1">
+      <div class="figure-scale-inner">
+        <iframe data-src-bright="fig1-bright.html" data-src-dark="fig1-dark.html" title="Figure 1" scrolling="no" loading="lazy"></iframe>
+      </div>
+    </div>
+    <a class="fig-open" href="#" data-figure-key="fig1" data-src-bright="fig1-bright.html" data-src-dark="fig1-dark.html" target="_blank" rel="noopener">Open Figure 1 ↗</a>
+  </div> -->
+  <!-- Figure 4 — PNG with theme switching -->
+  <div class="fig-wrap crop-vertical" style="margin-top:1.5rem;">
+    <img id="fig1-img"
+         class="theme-img"
+         src="fig/fig1.png" 
+         data-src-dark="fig/fig1.png"
+         data-src-bright="fig/fig1.png"
+         alt="Figure 1: Benchmark composition" />
+  </div>
+
+
+  
+
+  <h3 style="margin-top:1.75rem; margin-bottom:0.65rem; font-size:1rem; color:var(--ink);">Key Contributions</h3>
+  <ul class="contrib-list">
+    <li><span class="contrib-num">i</span><span><strong style="color:var(--ink);">GNN-CB</strong> — first competition-based benchmark for evaluating humans and LLMs on GNN coding tasks.</span></li>
+    <li><span class="contrib-num">ii</span><span><strong style="color:var(--ink);">18 curated competitions</strong> across 7 graph categories, 3 difficulty tiers, and 10+ domains under unified hidden-test evaluation.</span></li>
+    <li><span class="contrib-num">iii</span><span>A controlled <strong style="color:var(--ink);">LLM evaluation framework</strong>: frozen prompting, plan-then-code generation, bounded repair loops (k ≤ 5), agent &amp; non-agent modes.</span></li>
+    <li><span class="contrib-num">iv</span><span>Systematic <strong style="color:var(--ink);">human vs. LLM analysis</strong> across 9 models and 18 competitions </span></li>
+    <li><span class="contrib-num">v</span><span><strong style="color:var(--ink);">Living benchmark</strong> with automated pipelines, dynamic leaderboards, and an educational GNN corpus.</span></li>
+  </ul>
+</section>
+
+<!-- ═══════════════════════════ RELATED WORK ════════════════════════
+<hr class="section-divider" />
+<section class="section" id="related">
+  <span class="section-lede"></span>
+  <h2 class="section-title" style="margin-top:0.15rem;"><span class="section-icon">🔗</span>Related Work</h2>
+  <p class="body-text">GNN-CB bridges two research lines that have developed independently.</p>
+
+  <div class="two-col-grid">
+    <div class="card">
+      <span class="tag">LLM Code Benchmarks</span>
+      <h4>Code Generation &amp; Reasoning</h4>
+      <p>HumanEval, SWE-bench, BigCodeBench, and LiveCodeBench cover functional correctness, repo-level reasoning, and data science workflows — <em>none include graph-structured ML.</em></p>
+    </div>
+    <div class="card">
+      <span class="tag">Graph ML Benchmarks</span>
+      <h4>GNN Evaluation</h4>
+      <p>OGB and LRGB evaluate predictive model performance on fixed datasets — <em>they do not assess executable GNN implementation ability or LLM-generated solutions.</em></p>
+    </div>
+    <div class="card accent-left span-full">
+      <h4>GNN-CB Positioning</h4>
+      <p>GNN-CB bridges both directions: competition-based benchmark for executable GNN coding, with unified evaluation of humans and LLMs under controlled, reproducible conditions and automated GitHub-based scoring.</p>
+    </div>
+  </div>
+</section> -->
+
+<!-- ═══════════════════════════ BENCHMARK CONSTRUCTION ═══════════════ -->
+<hr class="section-divider" />
+<section class="section" id="benchmark">
+  <span class="section-lede"></span>
+  <h2 class="section-title" style="margin-top:0.1rem;"><span class="section-icon"></span>Benchmark Construction</h2>
+  
+  <div class="protocol-grid">
+    <div class="protocol-card">
+      <span class="p-num">Protocol I</span>
+      <h4>Competition Design</h4>
+      <ul>
+        <li>18 competitions</li>
+        <li>Standardized repos </li>
+        <li>Hidden test sets</li>
+        <li>GitHub Actions auto-scoring</li>
+        <li>Encrypted submission</li>
+        <li>Live leaderboard updates</li>
+      </ul>
+    </div>
+    <div class="protocol-card">
+      <span class="p-num">Protocol II</span>
+      <h4>Human Evaluation</h4>
+      <ul>
+        <li>GNN-only</li>
+        <li>3 CPU hours per task</li>
+        <li>Fixed seed = 25</li>
+        <li>≤ 5 HP tuning runs</li>
+        <li>1 final submission</li>
+        <li>Without LLMs</li>
+      </ul>
+    </div>
+    <div class="protocol-card">
+      <span class="p-num">Protocol III · API</span>
+      <h4>LLM Evaluation (Non-Agent)</h4>
+      <ul>
+        <li>Frozen prompt template</li>
+        <li><strong>Manual 5-slot filling</strong></li>
+        <li>Plan-then-code paradigm</li>
+        <li>Repair loop k ≤ 5</li>
+        <li>CPU-only</li>
+        <li>Zero-shot, temp = 0</li>
+      </ul>
+    </div>
+    <div class="protocol-card">
+      <span class="p-num">Protocol III · Agent</span>
+      <h4>LLM Evaluation (Agent)</h4>
+      <ul>
+        <li>Frozen prompt template</li>
+        <li><strong>Autonomous repo exploration</strong></li>
+        <li>Plan-then-code paradigm</li>
+        <li>Iterative repair (k ≤ 5)</li>
+        <li>CPU-only</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- LLM Pipeline Figure -->
+  <!-- <div style="margin-top:1.75rem;">
+    <p class="fig-desc" style="margin-bottom:0.5rem; font-size:0.83rem; color:var(--ink-3);">Figure 2 — LLM evaluation pipeline: slot filling → frozen prompt → plan-then-code → execute-and-repair → hidden-test scoring.</p>
+    <div class="figure-viewport" data-width="1400" data-height="560" data-fit="width" data-no-cap="1">
+      <div class="figure-scale-inner">
+        <iframe data-src-bright="fig2-bright.html" data-src-dark="fig2-dark.html" title="Figure 2" scrolling="no" loading="lazy"></iframe>
+      </div>
+    </div>
+    <a class="fig-open" href="#" data-figure-key="fig2" data-src-bright="fig2-bright.html" data-src-dark="fig2-dark.html" target="_blank" rel="noopener">Open Figure 2 ↗</a>
+  </div> -->
+
+  <!-- Frozen prompt -->
+  <h3 style="margin-top:1.75rem; margin-bottom:0.4rem; font-size:0.95rem; color:var(--ink);">Frozen Prompt Template</h3>
+  <p class="body-text" style="margin-bottom:0;">Same template across all 18 competitions; only the five slot contents vary per task.</p>
+  <div class="code-snippet"><span class="cm"># Slots filled from each competition repo</span>
+<span class="kw">You are solving a GNN coding competition.</span>
+Receive: (1) README  (2) repo tree  (3) dataset summary  (4) submission format  (5) allowed libs
+Produce:
+  &lt;plan&gt;...reasoning plan...&lt;/plan&gt;
+  &lt;code&gt;...standalone executable...&lt;/code&gt;
+Constraints: runnable as <span class="st">`python solution.py`</span>, CPU-only, no downloads, output predictions.csv</div>
+
+  
+</section>
+
+<!-- ═══════════════════════════ COMPETITIONS ══════════════════════════ -->
+<hr class="section-divider" />
+<section class="section" id="competitions">
+  <span class="section-lede"></span>
+  <h2 class="section-title" style="margin-top:0.15rem;"><span class="section-icon"></span>Competition Explorer</h2>
+  
+
+  <p class="body-text">All 18 GNN-CB competitions across 7 graph categories, 3 difficulty tiers, 4 task types, and 10 domains. Filter by any dimension.</p>
+
+  <div class="controls">
+    <input type="text" id="comp-search" placeholder="Search by name, domain, or dataset…" />
+    <select id="comp-diff">
+      <option value="all">All Difficulties</option>
+      <option value="Easy">Easy</option>
+      <option value="Med">Medium</option>
+      <option value="Hard">Hard</option>
+      <option value="Expert">Expert</option>
+    </select>
+    <select id="comp-cat">
+      <option value="all">All Graph Categories</option>
+      <option value="Homo">Homogeneous</option>
+      <option value="Hetero">Heterogeneous</option>
+      <option value="Spatial">Spatial</option>
+      <option value="Temp">Temporal</option>
+      <option value="Hier">Hierarchical</option>
+      <option value="Gen">Generalization</option>
+      <option value="Mol">Molecular</option>
+    </select>
+    <select id="comp-task">
+      <option value="all">All Task Types</option>
+      <option value="Node">Node Classification</option>
+      <option value="Graph">Graph Classification</option>
+      <option value="Regression">Graph Regression</option>
+      <option value="Link">Link Prediction</option>
+    </select>
+  </div>
+
+  <div class="task-grid" id="task-grid"></div>
+  
+  
+
+<!-- ═══════════════════════════ competition-composition ══════════════════════════════ -->
+  <hr class="section-divider" />
+  <section id="competition-composition">
+    <h3>Competition Composition</h3>
+  
+    <p>
+      Composition of the 18 GNN-CB competitions attempted by human
+      participants, summarized across four dimensions: graph category,
+      difficulty tier, task type, and application domain. Per-slice counts
+      and competition codes are listed in the legend below each donut chart.
+      See the figure below for additional details.
+    </p>
+  
+    <figure class="composition-figure">
+      <img
+        src="fig/fig5.png"
+        alt="Donut charts summarizing the composition of the 18 GNN-CB competitions across graph category, difficulty tier, task type, and application domain"
+        class="composition-img"
+      />
+  
+      <figcaption>
+        Composition of the 18 GNN-CB competitions across graph category,
+        difficulty tier, task type, and application domain.
+      </figcaption>
+    </figure>
+  </section>
+
+<!--    <div class="fig-wrap">
+    <p class="fig-caption">Figure:  Composition of the 18 GNN-CB competitions attempted by human participants, summarized along
+      graph category, difficulty tier, task type, and domain</p>
+    <img id="fig5-img"
+         class="theme-img"
+         src="fig5-dark.png"
+         data-src-dark="fig5.png"
+         data-src-bright="fig5.png"
+         alt="Figure 5: Best vs Mean LLM performance" />
+         <!-- data-src-dark="fig5-dark.png"
+         data-src-bright="fig5-bright.png" 
+  </div> -->
+
+</section>
+
+<!-- ═══════════════════════════ RESULTS ══════════════════════════════ -->
+<hr class="section-divider" />
+<section class="section" id="results">
+  <span class="section-lede"></span>
+  <h2 class="section-title" style="margin-top:0.15rem;"><span class="section-icon"></span>Results</h2>
+
+  <!-- Human Performance -->
+  <h3 style="margin-bottom:0.4rem; font-size:1rem; color:var(--ink);">Human Performance</h3>
+  <p class="body-text">Human scores vary substantially across competitions, reflecting task difficulty and domain complexity. Easy tasks (C03, C08) achieve high scores with low variance; Hard tasks (C02, C04, C18) show lower averages and larger best–worst gaps.</p>
+
+  <!-- Figure 3 -->
+  <!-- <div style="margin-bottom:1.25rem;">
+    <p class="fig-desc" style="margin-bottom:0.4rem; font-size:0.83rem; color:var(--ink-3);">Figure 3 — Per-task human performance: min, avg, max, and std across all 18 competitions.</p>
+    <div class="figure-viewport" data-width="1400" data-height="580" data-fit="width" data-no-cap="1" data-chart="1">
+      <div class="figure-scale-inner">
+        <iframe data-src-bright="fig3-bright.html" data-src-dark="fig3-dark.html" title="Figure 3" scrolling="no" loading="lazy"></iframe>
+      </div>
+    </div>
+     <a class="fig-open" href="#" data-figure-key="fig3" data-src-bright="fig3-bright.html" data-src-dark="fig3-dark.html" target="_blank" rel="noopener">Open Figure 3 ↗</a> 
+  </div> -->
+
+  <div class="table-wrap">
+    <table class="human-stats-table" id="human-table">
+      <thead>
+        <tr>
+          <th onclick="sortHuman(0)">#</th>
+          <th onclick="sortHuman(1)">Competition</th>
+          <th onclick="sortHuman(2)">Difficulty</th>
+          <th onclick="sortHuman(3)">N</th>
+          <th onclick="sortHuman(4)">Metric</th>
+          <th onclick="sortHuman(5)">AVG ↓</th>
+          <th onclick="sortHuman(6)">STD</th>
+          <th onclick="sortHuman(7)">High</th>
+          <th onclick="sortHuman(8)">Low</th>
+        </tr>
+      </thead>
+      <tbody id="human-tbody"></tbody>
+    </table>
+  </div>
+
+  <!-- LLM Results -->
+  
+  <br>
+    <h3 style="margin-bottom:0.4rem; font-size:1rem; color:var(--ink);">LLMs Performance</h3>
+  
+    <div class="section-text">
+      <p>
+        We evaluate nine leading LLMs on all 18 GNN-CB competitions using a
+        fixed plan-then-code prompting strategy with a bounded execute-and-repair
+        loop. Across 162 total model–task evaluations, LLMs surpass the Human
+        Top score in only 19 cases, meaning that in more than 88% of evaluations
+        no model reaches the performance achieved by the best human competitor.
+        Overall, the results demonstrate that current LLMs consistently fall
+        short of expert-level GNN competition performance regardless of task
+        difficulty <a href="#fig-llm-overall">Fig. Overall LLM gap analysis on GNN-CB </a>.
+      </p>
+
+      <figure class="hero-figure" id="fig-llm-overall">
+        <img
+          src="fig/llm_v3.png"
+          alt="Overall LLM gap analysis on GNN-CB"
+        />
+    
+        <figcaption>
+          Overall Best, Mean, and Worst Gap performance for leading LLMs on the
+          GNN-CB classification benchmark grouped by model family.
+        </figcaption>
+      </figure>
+  
+      <p>
+        Open-source models generally exhibit larger average gaps and higher
+        variance across competitions, indicating lower consistency and
+        reliability. Proprietary reasoning and chat models perform comparatively
+        similarly, with no clear systematic advantage for reasoning-oriented
+        architectures. Among open-source systems, Kimi-k2.6 approaches the
+        stability of proprietary chat models, while DeepSeek-v4 Pro remains
+        competitive but less consistent on medium and hard tasks.
+        <p>
+          Easy classification tasks reveal that top proprietary models operate
+          close to human baselines, whereas open-source chat models display larger
+          negative gaps and wider best-to-worst performance spreads. As difficulty
+          increases, mean and worst-case performance degrade substantially across
+          nearly all models, highlighting the limitations of current foundation
+          models under high-complexity graph learning settings. For more analysis see the <a href="#fig-llm-3tires"> figures below </a>.
+        </p>
+        
+      </p>
+  
+      
+    </div>
+
+    <div class="subplot-grid" id="fig-llm-3tires">
+  
+      <figure class="subplot-card">
+        <img
+          src="fig/llm_easy.png"
+          alt="Easy classification gap analysis"
+        />
+        <figcaption>
+          <strong>(a)</strong> Gap analysis on Easy classification tasks.
+        </figcaption>
+      </figure>
+  
+      <figure class="subplot-card">
+        <img
+          src="fig/llm_med.png"
+          alt="Medium classification gap analysis"
+        />
+        <figcaption>
+          <strong>(b)</strong> Gap analysis on Medium classification tasks.
+        </figcaption>
+      </figure>
+  
+      <figure class="subplot-card">
+        <img
+          src="fig/llm_hard.png"
+          alt="Hard classification gap analysis"
+        />
+        <figcaption>
+          <strong>(c)</strong> Gap analysis on Hard classification tasks.
+        </figcaption>
+      </figure>
+  
+      <figure class="subplot-card">
+        <img
+          src="fig/human_vs_llm.png"
+          alt="Human versus LLM comparison"
+        />
+        <figcaption>
+          <strong>(d)</strong> Average Human Top vs Average LLM performance.
+        </figcaption>
+      </figure>
+  
+    </div>
+  
+    
+    <div class="subplot-grid" >
+  
+      <figure class="subplot-card">
+        <img
+          src="fig/llm_leaderboard_easy.png"
+          alt="Easy leaderboard"
+        />
+        <figcaption>
+          <strong>(e)</strong> LLM leaderboard on Easy tasks.
+        </figcaption>
+      </figure>
+  
+      <figure class="subplot-card">
+        <img
+          src="fig/llm_leaderboard_med.png"
+          alt="Medium leaderboard"
+        />
+        <figcaption>
+          <strong>(f)</strong> LLM leaderboard on Medium tasks.
+        </figcaption>
+      </figure>
+  
+      <figure class="subplot-card">
+        <img
+          src="fig/llm_leaderboard_hard.png"
+          alt="Hard leaderboard"
+        />
+        <figcaption>
+          <strong>(g)</strong> LLM leaderboard on Hard tasks.
+        </figcaption>
+      </figure>
+  
+      <figure class="subplot-card">
+        <img
+          src="fig/llm2_vs_human_per_competition.png"
+          alt="LLM versus Human performance"
+        />
+        <figcaption>
+          <strong>(h)</strong> Human vs LLM average score comparison.
+        </figcaption>
+      </figure>
+  
+    </div>
+  
+  </section>
+
+</section>
+
+<!-- ═══════════════════════════ LEADERBOARD ═══════════════════════════ -->
+<hr class="section-divider" />
+<section class="section" id="leaderboard">
+  <span class="section-lede"></span>
+  <h2 class="section-title" style="margin-top:0.15rem;"><span class="section-icon"></span>LLM Leaderboard</h2>
+  <p class="body-text">
+    Per-model performance across all 18 competitions under frozen plan-then-code prompting.
+  </p>
+
+  <div class="lb-filters">
+    <button type="button" class="filter-btn active" onclick="filterLB('all', this)">All Models</button>
+    <button type="button" class="filter-btn" onclick="filterLB('proprietary_reasoning', this)">Proprietary Reasoning</button>
+    <button type="button" class="filter-btn" onclick="filterLB('proprietary_chat', this)">Proprietary Chat</button>
+    <button type="button" class="filter-btn" onclick="filterLB('opensource_reasoning', this)">Open-source Reasoning</button>
+    <button type="button" class="filter-btn" onclick="filterLB('opensource_chat', this)">Open-source Chat</button>
+  </div>
+
+  <div class="table-wrap">
+    <table id="lb-table">
+      <thead>
+        <tr>
+          <th onclick="sortLB(0)"># <span class="sort-icon"></span></th>
+          <th onclick="sortLB(1)">Model <span class="sort-icon"></span></th>
+          <th>Type</th>
+          <th>Mode</th>
+          <th onclick="sortLB(4)" title="Real Or Fake! (C03)">C03<br/><span style="font-weight:400;color:var(--easy)">Easy</span></th>
+          <th onclick="sortLB(5)" title="Liar Nodes (C08)">C08<br/><span style="font-weight:400;color:var(--easy)">Easy</span></th>
+          <th onclick="sortLB(6)"  title="PROVEN-GNN (C01)">C01<br/><span style="font-weight:400;color:var(--med)">Med</span></th>
+          <th onclick="sortLB(7)"  title="GNN_BACE (C05)">C05<br/><span style="font-weight:400;color:var(--med)">Med</span></th>
+          <th onclick="sortLB(8)"  title="GRAPE (C07)">C07<br/><span style="font-weight:400;color:var(--med)">Med</span></th>
+          <th onclick="sortLB(9)" title="GraphFMD (C09)">C09<br/><span style="font-weight:400;color:var(--med)">Med</span></th>
+          <th onclick="sortLB(10)" title="NetLinkArena (C10)">C10<br/><span style="font-weight:400;color:var(--med)">Med</span></th>
+          <th onclick="sortLB(11)" title="PARK-GNN (C11)">C11<br/><span style="font-weight:400;color:var(--med)">Med</span></th>
+          <th onclick="sortLB(12)" title="GNN-CoRA (C12)">C12<br/><span style="font-weight:400;color:var(--med)">Med</span></th>
+          <th onclick="sortLB(13)" title="OctoNode Cup (C15)">C15<br/><span style="font-weight:400;color:var(--med)">Med</span></th>
+          <th onclick="sortLB(14)" title="Graph4ASD (C16)">C16<br/><span style="font-weight:400;color:var(--med)">Med</span></th>
+          <th onclick="sortLB(15)" title="CGCC (C02)">C02<br/><span style="font-weight:400;color:var(--hard)">Hard</span></th>
+          <th onclick="sortLB(16)" title="GLIMPS-GNN (C04)">C04<br/><span style="font-weight:400;color:var(--hard)">Hard</span></th>
+          <th onclick="sortLB(17)" title="DiaGraph (C06)">C06<br/><span style="font-weight:400;color:var(--hard)">Hard</span></th>
+          <th onclick="sortLB(18)" title="GTA (C13)">C13<br/><span style="font-weight:400;color:var(--hard)">Hard</span></th>
+          <th onclick="sortLB(19)" title="THInC (C18)">C18<br/><span style="font-weight:400;color:var(--hard)">Hard</span></th>
+        </tr>
+      </thead>
+      <tbody id="lb-tbody"></tbody>
+    </table>
+  </div>
+
+  
+
+</section>
+
+<!-- ═══════════════════════════ DISCUSSION ════════════════════════════
+<hr class="section-divider" />
+<section class="section" id="discussion">
+  <span class="section-lede">§6</span>
+  <h2 class="section-title" style="margin-top:0.15rem;"><span class="section-icon">🔬</span>Discussion</h2>
+
+  <div class="discussion-grid">
+    <div class="card">
+      <h4>📉 Difficulty-Correlated Degradation</h4>
+      <p>The LLM–human gap widens monotonically with difficulty. Frontier models falter on tasks requiring non-standard graph construction, domain-specific feature engineering, or class-imbalance handling — signals that humans extract with comparatively little effort.</p>
+    </div>
+    <div class="card">
+      <h4>🔀 Consistency, Not Capability</h4>
+      <p>Every model produces at least one near-human peak score, yet none sustains that level on average. The Best–Mean gap ranges from 26–32 pp (frontier reasoning) to 44 pp (open-source chat), revealing a <em>consistency</em> failure rather than a capability ceiling.</p>
+    </div>
+    <div class="card">
+      <h4>🤝 Model Complementarity</h4>
+      <p>No single model dominates all 18 competitions. Kimi k2.6 leads on C09 (+0.153); GPT-5.4 Codex on C13 (+0.036). Ensembling or task-aware routing may be more effective than further scaling a single model.</p>
+    </div>
+    <div class="card">
+      <h4>⚠️ Deployment Caution</h4>
+      <p>Wide cross-task variance cautions against deploying LLM-generated GNN solutions in safety-critical domains — medical diagnosis, financial fraud detection, neuroimaging — without expert review.</p>
+    </div>
+    <div class="card blue-left span-full">
+      <h4>📌 Conclusion</h4>
+      <p>GNN-CB shows that LLMs match experts on well-templated GNN tasks but lag on complex graph reasoning. Their dominant limitation is <em>consistency</em> across heterogeneous workflows. The benchmark, evaluation harness, and leaderboards are publicly released as a scalable foundation for implementation-level graph reasoning research and a progressive GNN educational corpus.</p>
+    </div>
+  </div>
+</section>
+
+ ═══════════════════════════ SETUP & EVAL ═════════════════════════ -->
+<!-- 
+ <hr class="section-divider" />
+<section class="section" id="setup">
+  <span class="section-lede">Setup &amp; Evaluation</span>
+  <h2 class="section-title" style="margin-top:0.15rem;"><span class="section-icon">⚙️</span>Setup &amp; Evaluation</h2>
+
+  
+  <div class="setup-tabs">
+    <button class="setup-tab-btn active" onclick="showTab('env', this)">Environment</button>
+    <button class="setup-tab-btn" onclick="showTab('nonagent', this)">Non-Agent Eval</button>
+    <button class="setup-tab-btn" onclick="showTab('agent', this)">Agent Eval</button>
+    <button class="setup-tab-btn" onclick="showTab('output', this)">Output Format</button>
+  </div>
+
+  <div class="setup-pane active" id="tab-env">
+    <pre>conda create --name gnncb python=3.10 && conda activate gnncb
+pip install -r requirements.txt && touch .env
+# .env keys: OPENAI_API_KEY, ANTHROPIC_API_KEY, GOOGLE_API_KEY, DEEPSEEK_API_KEY, TOGETHER_API_KEY</pre>
+  </div>
+  <div class="setup-pane" id="tab-nonagent">
+    <pre>cd evaluation/non_agent
+python run_evaluation.py --model claude-opus-4-6 --competition C03 --repair_limit 5 --output_dir results/
+./run_all_competitions.sh --model gemini-2.5-pro</pre>
+  </div>
+  <div class="setup-pane" id="tab-agent">
+    <pre>cd evaluation/agent
+python run_agent_evaluation.py --model claude-opus-4-7 --competition C03 --repair_limit 5 --output_dir results/agent/</pre>
+  </div>
+  <div class="setup-pane" id="tab-output">
+    <pre>results/claude-opus-4-6/C03_Real_Or_Fake/
+  plan.txt        # generated reasoning plan
+  solution.py     # generated executable code
+  predictions.csv # id,y_pred (float for regression tasks)
+  score.json      # hidden-test score
+  repair_log.txt  # traceback + repair history</pre>
+  </div>
+
+  <h3 style="margin-top:1.75rem; margin-bottom:0.5rem; font-size:0.95rem; color:var(--ink);">Supported Models</h3>
+  <div class="table-wrap">
+    <table class="models-table">
+      <thead>
+        <tr><th>Model</th><th>Provider</th><th>Mode</th><th>API String</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Claude Opus 4.7</td><td>Anthropic</td><td>Agent</td><td><code>claude-opus-4-7</code></td></tr>
+        <tr><td>Claude Opus 4.6</td><td>Anthropic</td><td>Non-Agent</td><td><code>claude-opus-4-6</code></td></tr>
+        <tr><td>GPT-5.4 Codex</td><td>OpenAI</td><td>Agent</td><td><code>gpt-5.4-codex</code></td></tr>
+        <tr><td>Gemini 2.5 Pro</td><td>Google DeepMind</td><td>Non-Agent</td><td><code>gemini-2.5-pro</code></td></tr>
+        <tr><td>Gemini-3 Flash</td><td>Google DeepMind</td><td>Non-Agent</td><td><code>gemini-3-flash</code></td></tr>
+        <tr><td>DeepSeek-v4 Pro</td><td>DeepSeek-AI</td><td>Non-Agent</td><td><code>deepseek-v4-pro</code></td></tr>
+        <tr><td>Llama-3.3 70B</td><td>Meta AI</td><td>Non-Agent</td><td><code>meta-llama/Llama-3.3-70B-Instruct</code></td></tr>
+        <tr><td>Qwen2.5-Coder 32B</td><td>Alibaba Cloud</td><td>Non-Agent</td><td><code>Qwen/Qwen2.5-Coder-32B-Instruct</code></td></tr>
+        <tr><td>Kimi k2.6</td><td>Moonshot AI</td><td>Non-Agent</td><td><code>kimi-k2.6</code></td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>  -->
+<!-- ═══════════════════════════ CITATION ══════════════════════════════ -->
+<hr class="section-divider" />
+<section class="section" id="global-participation">
+  <h3>Global Participation</h3>
+
+  <p>
+    GNN-CB is supported by a globally distributed cohort of contributors
+    from <strong>18 universities across 12 countries and five continents</strong>. The
+    benchmark was intentionally designed to reflect broad geographic and
+    institutional diversity spanning Africa, the Americas, Asia, and Europe.
+    This diversity helps ensure that the curated competitions, datasets,
+    and evaluation settings are not centered around a single regional
+    research community, while also providing a heterogeneous human expert
+    baseline.
+  </p>
+
+  <figure class="world-map-figure">
+    <img 
+      src="fig/map.png" 
+      alt="World map showing the geographic distribution of GNN-CB participating institutions"
+      class="world-map-img"
+    />
+
+    <figcaption>
+      Geographic distribution of participating institutions contributing to GNN-CB.
+    </figcaption>
+  </figure>
+</section>
+
+<!-- ═══════════════════════════ CITATION ══════════════════════════════ -->
+<hr class="section-divider" />
+<section class="section" id="citation">
+  <span class="section-lede"></span>
+  <h2 class="section-title" style="margin-top:0.15rem;"><span class="section-icon"></span>Citation</h2>
+  <p class="body-text">If you use GNN-CB in your research, please cite:</p>
+  <div class="citation-box" id="citation-text">@inproceedings{gnncb2026,
+  title     = {GNN-CB: A Graph Neural Network Competition Benchmark
+               for Human and LLM Evaluation},
+  author    = {Anonymous},
+  booktitle = {Proceedings of the 2026 Conference on Empirical
+               Methods in Natural Language Processing (EMNLP)},
+  year      = {2026}
+}</div>
+  <button class="copy-btn" onclick="copyCitation()">Copy BibTeX</button>
+</section>
+
+<!-- ═══════════════════════════ FOOTER ════════════════════════════════ -->
+<footer>
+  <img src="fig/logo/BASIRA-DARK.png"
+     data-src-dark="fig/logo/BASIRA-DARK.png"
+     data-src-bright="fig/logo/BASIRA-LIGHT.png"
+     alt="BASIRA Lab" class="footer-logo theme-img" /> 
+  <p>
+    <strong>GNN-CB</strong> · EMNLP 2026 · MIT License
+  </p>
+  <p style="margin-top:4px; font-size:0.8rem; color:var(--ink-3);">Research &amp; educational use only.</p>
+</footer>
+
+<script src="gnncb.js"></script>
+<script>
+  /* ── Theme-aware PNG switching ── */
+  function applyThemeImgs() {
+    var dark = document.documentElement.getAttribute('data-theme') === 'dark';
+    document.querySelectorAll('img.theme-img').forEach(function(img) {
+      img.src = dark ? img.dataset.srcDark : img.dataset.srcBright;
+    });
+  }
+  applyThemeImgs();
+
+  /* Observe theme changes triggered by gnncb.js toggle */
+  new MutationObserver(function(muts) {
+    muts.forEach(function(m) {
+      if (m.attributeName === 'data-theme') applyThemeImgs();
+    });
+  }).observe(document.documentElement, { attributes: true });
+
+  /* ── Setup tabs ── */
+  function showTab(id, btn) {
+    document.querySelectorAll('.setup-pane').forEach(function(p) { p.classList.remove('active'); });
+    document.querySelectorAll('.setup-tab-btn').forEach(function(b) { b.classList.remove('active'); });
+    document.getElementById('tab-' + id).classList.add('active');
+    btn.classList.add('active');
+  }
+</script>
+</body>
+</html>
