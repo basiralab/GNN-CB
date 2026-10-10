@@ -7196,7 +7196,7 @@ const COMPETITIONS = [
     repo:"https://github.com/AiIkram/gnn-parkinsons-challenge", lb:"https://aiikram.github.io/gnn-parkinsons-challenge/leaderboard.html" },
   { id:"C12", name:"GNN-CoRA",       diff:"Med",    cat:"Homo",    task:"Node", domain:"Academic",      metric:"Accuracy", dataset:"Cora",           n:14, avg:0.551, std:0.196, high:0.742, low:0.153,
     desc:"Node classification on a noisy citation network; Gaussian noise injected into 1433-dimensional bag-of-words features.",
-    repo:"https://github.com/tasneem-mselim/GNN_CORA_LLMs", lb:"https://tasneem-mselim.github.io/GNN_CoRA/final_leaderboard.html" },
+    repo:"https://github.com/tasneem-mselim/GNN_CORA_LLMs", lb:"https://tasneem-mselim.github.io/GNN_CORA_LLMs/final_leaderboard.html" },
   { id:"C13", name:"GTA",            diff:"Hard",   cat:"Gen",     task:"Graph", domain:"Bioinformatics",metric:"Macro-F1", dataset:"MUTAG",          n:16, avg:0.582, std:0.163, high:0.790, low:0.250,
     desc:"Binary graph classification of molecular mutagenicity under clean and feature-perturbed conditions; robustness gap is a secondary metric.",
     repo:"https://github.com/idrees11/GTA-Graph-Topology-Ablation", lb:"https://idrees11.github.io/GTA-Graph-Topology-Ablation/index.html" },
