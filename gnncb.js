@@ -7184,7 +7184,7 @@ const COMPETITIONS = [
     repo:"https://github.com/Muhammad0isah/GRAPE", lb:"https://muhammad0isah.github.io/GRAPE/leaderboard.html" },
   { id:"C08", name:"Liar Nodes",     diff:"Easy",   cat:"Homo",    task:"Node", domain:"Biomedical",    metric:"Accuracy", dataset:"CancerSCEM",     n:17, avg:0.756, std:0.212, high:0.996, low:0.407,
     desc:"Transductive node classification for cancer-cell identification; node embeddings are intentionally corrupted to simulate biological ambiguity.",
-    repo:"https://github.com/NoorMajdoub/Challenge", lb:"https://github.com/NoorMajdoub/Challenge" },
+    repo:"https://github.com/NoorMajdoub/Liarnode_challenge", lb:"https://noormajdoub.github.io/Liarnode_challenge/" },
   { id:"C09", name:"GraphFMD",       diff:"Med",    cat:"Temp",    task:"Node", domain:"Finance",       metric:"Macro-F1", dataset:"Elliptic",       n:18, avg:0.706, std:0.271, high:0.891, low:0.403,
     desc:"Temporal inductive node classification on Bitcoin transaction graphs; illicit transactions < 3% of nodes.",
     repo:"https://github.com/faranbutt/GraphFMD", lb:"https://faranbutt.github.io/GraphFMD/" },
