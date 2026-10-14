@@ -7205,7 +7205,7 @@ const COMPETITIONS = [
     repo:"https://github.com/bjayadikary/brain-age-gnn-oasis3", lb:"https://bjayadikary.github.io/brain-age-gnn-oasis3/leaderboard.html" },
   { id:"C15", name:"OctoNode Cup",   diff:"Med",    cat:"Homo",    task:"Node", domain:"Social",        metric:"Macro-F1", dataset:"GitHub Social",  n:15, avg:0.672, std:0.151, high:0.793, low:0.211,
     desc:"Binary node classification of GitHub users (Web vs ML developers) on a 37.7K-node social graph.",
-    repo:"https://github.com/El-Ikram/OctoNode_Cup", lb:"https://el-ikram.github.io/OctoNode_Cup/leaderboard.html" },
+    repo:"https://github.com/El-Ikram/OctoNode_Cup", lb:"https://el-ikram.github.io/OctoNode_Cup_LLM/leaderboard.html" },
   { id:"C16", name:"Graph4ASD",      diff:"Med",    cat:"Homo",    task:"Graph", domain:"Neuroimaging", metric:"Macro-F1", dataset:"ABIDE",          n:14, avg:0.513, std:0.082, high:0.627, low:0.389,
     desc:"Binary classification of brain connectivity graphs (ASD vs typical control); node features restricted to identity descriptors.",
     repo:"https://github.com/RosePY/Graph4ASD-Challenge", lb:"https://rosepy.github.io/Graph4ASD-Challenge/docs/leaderboard.html" },
