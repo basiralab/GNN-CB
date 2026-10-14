@@ -7163,7 +7163,7 @@ function openFigurePage(id, theme) {
 const COMPETITIONS = [
   { id:"C01", name:"PROVEN-GNN",     diff:"Med",    cat:"Hetero",  task:"Graph", domain:"Cybersecurity", metric:"Macro-F1", dataset:"DiverseVul",     n:17, avg:0.792, std:0.101, high:0.900, low:0.435,
     desc:"Graph classification on code-property graphs (AST/CFG/PDG) for vulnerability detection.",
-    repo:"https://github.com/abdksm/PROVEN-GNN/",  lb:"https://abdksm.github.io/PROVEN-GNN/docs/leaderboard.html" },
+    repo:"https://github.com/abdksm/PROVEN-GNN/",  lb:"https://abdksm.github.io/PROVEN-GNN-LLM/docs/leaderboard.html" },
   { id:"C02", name:"CGCC",           diff:"Hard",   cat:"Homo",    task:"Graph", domain:"Urban",         metric:"Macro-F1", dataset:"OpenStreetMap",  n:17, avg:0.383, std:0.086, high:0.537, low:0.205,
     desc:"Graph classification of city street-network layouts (organic / grid / hybrid).",
     repo:"https://github.com/Murad-Hossen/CGCC",   lb:"https://murad-hossen.github.io/CGCC/leaderboard/index.html" },
